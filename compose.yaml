@@ -1,0 +1,15 @@
+services:
+  
+  motiva_core_back:
+      build:
+        context: ./backend
+      ports:
+        - "3002:3002"
+      
+  motiva_core_front:
+      build: 
+        context: ./frontend
+      ports:
+        - "3001:80"
+      depends_on:
+        - motiva_core_back
