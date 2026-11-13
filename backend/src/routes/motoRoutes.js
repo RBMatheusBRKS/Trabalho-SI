@@ -1,7 +1,7 @@
-const { Routes } = require("express");
+const { Router } = require("express");
 const motoController = require("../controller/motoController");
 
-const router = Routes();
+const router = Router();
 
 router.post('/motos', motoController.register);
 router.get('/motos', motoController.getAll);

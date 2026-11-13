@@ -7,7 +7,7 @@ async function initDb() {
             marca VARCHAR(75) NOT NULL,
             ano INT NOT NULL,
             placa VARCHAR(7) NOT NULL,
-            status ENUM('DISPONIVEL','ALUGADA','MANUTENÇÃO') NOT NULL DEFAULT 'DISPONIVEL'
+            status ENUM('DISPONIVEL','ALUGADA','MANUTENÇÃO') NOT NULL
         )
     `);
 }
