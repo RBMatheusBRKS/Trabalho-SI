@@ -1,5 +1,4 @@
 services:
-
   mysql:
     image: mysql:8.4
     ports:
@@ -24,7 +23,7 @@ services:
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
       - DB_USER=${DB_USER}
-      - DB_DATABASE=${DB_DATABASE}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       depends_on:
         mysql:

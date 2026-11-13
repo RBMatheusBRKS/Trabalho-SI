@@ -4,5 +4,6 @@ const motoController = require("../controller/motoController");
 const router = Routes();
 
 router.post('/motos', motoController.register);
+router.get('/motos', motoController.getAll);
 
 module.exports = router;

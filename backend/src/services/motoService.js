@@ -26,4 +26,11 @@ async function registerBike({ modelo, marca, placa, ano, status }) {
     return await motoRepository.createBike({ modelo, marca, placa, ano, status });
   }
 
-module.exports = { registerBike };  
+async function getAllBikes() {
+  if(motoRepository.lenght === 0) {
+      throw new Error(404, "Não há motos cadastradas!")
+    }
+  return await motoRepository.getAllBikes();
+  }
+
+module.exports = { registerBike, getAllBikes };  
