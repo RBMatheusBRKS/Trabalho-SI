@@ -1,8 +1,8 @@
 require("dotenv").config();
 
-const initDb = require("./src/database/initDb");
+const initDb = require("./database/initDb");
 const express = require("express");
-const motoRoutes = require("./src/routes/motoRoutes");
+const motoRoutes = require("./routes/motoRoutes");
 
 const app = express();
 
