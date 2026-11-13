@@ -13,4 +13,18 @@ async function register(req, res) {
     }
 }
 
-module.exports = { register };
+async function getAll(req,res) {
+    try {
+        const { status } = req.query;
+
+        const motos = await motoService.getAllBikes(status);
+
+        return res.status(200).json(motos);
+
+    } catch (error) {
+        return res.status(400).json({
+            message: error.message
+        });
+    }
+}
+module.exports = { register, getAll };

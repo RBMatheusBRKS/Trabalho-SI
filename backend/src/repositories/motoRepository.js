@@ -8,4 +8,9 @@ async function createBike({ modelo, marca, placa, ano, status }) {
     return {id: result.insertId, modelo, marca, placa, ano, status};
 }
 
-module.exports = {createBike};
+async function getAllBikes() {
+    const [rows] = await pool.query("SELECT * FROM motos");
+}
+
+
+module.exports = {createBike, getAllBikes};
