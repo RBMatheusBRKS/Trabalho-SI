@@ -1,5 +1,7 @@
 require("dotenv").config();
+const initDb = require("./src/database/initDb");
 const express = require("express");
+
 
 const app = express();
 
@@ -9,9 +11,9 @@ const PORT = process.env.PORT || 3002;
 
 async function startServer() {
   try {
-    await initDatabase();
+    await initDb();
     app.listen(PORT, () => {
-      console.log('Api rodando na porta ${PORT}');
+      console.log(`Api rodando na porta ${PORT}`);
     });
   } catch (error) {
      console.error("Erro ao iniciar a api", error);
