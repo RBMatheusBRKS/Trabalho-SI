@@ -1,38 +1,29 @@
 const motoRepository = require("../repositories/motoRepository");
 
-const statusPermitidos = [
-  "DISPONIVEL",
-  "ALUGADA",
-  "MANUTENCAO"
-];
-
-function listar() {
-  return motoRepository.listar();
+function error(status, message) {
+    const e = new Error(message);
+    e.status = status;
+    return e;
 }
 
-function cadastrar(dados = {}) {
-  const { modelo, marca, placa, ano, status } = dados;
+async function registerBike({ modelo, marca, placa, ano, status }) {
+    if (!modelo || !marca || !placa || !ano || !status) {
+        throw error(400, "Todos os campos são obrigatórios!");
+    }
 
-  if (typeof placa !== "string" || placa.trim() === "") {
-    throw new Error("A placa é obrigatória.");
+    const statusAllowed = [
+      "DISPONIVEL",
+      "ALUGADA",
+      "MANUTENCAO"
+    ]
+
+    if(!status) {
+      throw new Error(400, "O status da moto é obrigatório!")
+    } if(!statusAllowed.includes(status)) {
+      throw new Error(400, "O status da moto deve ser DISPONIVEL, ALUGADA ou em MANUTENÇÃO!")
+    }
+  
+    return await motoRepository.createBike({ modelo, marca, placa, ano, status });
   }
 
-  if (!statusPermitidos.includes(status)) {
-    throw new Error(
-      "Informe um status válido: DISPONIVEL, ALUGADA ou MANUTENCAO."
-    );
-  }
-
-  return motoRepository.cadastrar({
-    modelo,
-    marca,
-    placa: placa.trim().toUpperCase(),
-    ano,
-    status
-  });
-}
-
-module.exports = {
-  listar,
-  cadastrar
-};
+module.exports = { registerBike };  

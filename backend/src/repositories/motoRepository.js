@@ -1,22 +1,11 @@
-// Guarda as motos em memória.
-const motos = [];
+const pool = require('../config/database');
 
-function listar() {
-  return [...motos];
+async function createBike({ modelo, marca, placa, ano, status }) {
+    const [result] = await pool.query(
+          'INSERT INTO motos (modelo, marca, placa, ano, status) VALUES (?, ?, ?, ?, ?)',
+        [modelo, marca, placa, ano, status]
+    );
+    return {id: result.insertId, modelo, marca, placa, ano, status};
 }
 
-function cadastrar(dados) {
-  const novaMoto = {
-    ...dados,
-    id: motos.length + 1
-  };
-
-  motos.push(novaMoto);
-
-  return novaMoto;
-}
-
-module.exports = {
-  listar,
-  cadastrar
-};
+module.exports = {createBike};

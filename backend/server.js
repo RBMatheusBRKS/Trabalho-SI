@@ -1,13 +1,28 @@
+require("dotenv").config();
 const express = require("express");
 
 const app = express();
-const PORT = 3002;
 
 app.use(express.json());
-// Armazena as motos em memória enquanto o servidor estiver ligado.
-const motos = [];
 
-// Retorna todas as motos cadastradas.
+const PORT = process.env.PORT || 3002;
+
+async function startServer() {
+  try {
+    await initDatabase();
+    app.listen(PORT, () => {
+      console.log('Api rodando na porta ${PORT}');
+    });
+  } catch (error) {
+     console.error("Erro ao iniciar a api", error);
+     process.exit(1);
+  }
+}
+
+startServer(); 
+
+
+/* Retorna todas as motos cadastradas.
 app.get("/motos", (req, res) => {
   res.json(motos);
 });
@@ -62,4 +77,6 @@ app.get("/motos", (req, res) => {
   res.json(motos);
 });
   console.log(`API disponível em http://localhost:${PORT}`);
-});
+
+
+}]*/
