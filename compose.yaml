@@ -1,40 +1,30 @@
 services:
-
   mysql:
     image: mysql:8.4
     ports:
-    - "3309:3306"
+      - "3309:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
       - MYSQL_DATABASE=${DB_DATABASE}
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p${DB_PASSWORD}"]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 15s
 
   motiva_core_back:
-      build:
-        context: ./backend
-      ports:
-        - "3002:3002"
-      environment:
-      - PORT=${PORT}
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT}
+    build:
+      context: ./backend
+    ports:
+      - "3002:3002"
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
       - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
       - DB_DATABASE=${DB_DATABASE}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      depends_on:
-        mysql:
-          condition: service_healthy
-          restart: true
-      
-  motiva_core_front:
-      build: 
-        context: ./frontend
-      ports:
-        - "3003:3003"
-      depends_on:
-        - motiva_core_back
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: on-failure
