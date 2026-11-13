@@ -1,4 +1,3 @@
-
 name: CI - Backend Express
 
 on:
@@ -15,6 +14,10 @@ jobs:
     name: Validar aplicação
     runs-on: ubuntu-latest
     timeout-minutes: 15
+
+    defaults:
+      run:
+        working-directory: backend
 
     services:
       mysql:
@@ -46,6 +49,7 @@ jobs:
         with:
           node-version: 24
           cache: npm
+          cache-dependency-path: backend/package-lock.json
 
       - name: Instalar dependências
         run: npm ci
@@ -57,4 +61,4 @@ jobs:
         run: node --check server.js
 
       - name: Construir imagem Docker
-        run: docker build -t projeto-backend:ci .
+        run: docker build -f dockerfile -t projeto-backend:ci .
